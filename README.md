@@ -23,13 +23,13 @@
 
 ## 화면
 ### 로그인
-![로그인.png](로그인.png)
+<img alt="로그인.png" src="로그인.png"/>
 
 ### 게시글
-![게시글.png](게시글.png)
+<img alt="게시글.png" src="게시글.png"/>
 
 ### 게시글 목록
-![게시글 목록.png](게시글 목록.png)
+<img alt="게시글 목록.png" src="게시글 목록.png"/>
 
 ## DB(ERD)
 
