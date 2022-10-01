@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>장세웅의 게시판</title>
+
+  <link href="../static/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+        crossorigin="anonymous">
+
+  <!-- Custom styles for this template -->
+  <link href="../static/css/signin.css" rel="stylesheet">
+</head>
+<header th:replace="header :: headerFragment"></header>
+<footer th:replace="footer :: footerFragment"></footer>
+<body class="text-center">
+
+<main class="form-signin w-100 m-auto">
+  <form>
+    <img class="mb-4" src="https://ps.w.org/login-customizer/assets/icon-256x256.png?rev=2455454" alt="" width="25%" height="25%">
+    <h1 class="h3 mb-3 fw-normal">로그인 해주세요.</h1>
+
+    <div class="form-floating">
+      <input type="id" class="form-control" id="floatingInput" placeholder="user id">
+      <label for="floatingInput">ID</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
+    <p class="mt-5 mb-3 text-muted">© 2022</p>
+  </form>
+</main>
+</body>
+</html>
