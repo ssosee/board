@@ -15,10 +15,9 @@
 <header th:replace="header :: headerFragment"></header>
 <footer th:replace="footer :: footerFragment"></footer>
 <body class="text-center">
-
 <main class="form-signin w-100 m-auto">
   <form>
-    <img class="mb-4" src="https://ps.w.org/login-customizer/assets/icon-256x256.png?rev=2455454" alt="" width="25%" height="25%">
+    <span style="font-size:4em;">🔐</span>
     <h1 class="h3 mb-3 fw-normal">로그인 해주세요.</h1>
 
     <div class="form-floating">
@@ -35,7 +34,10 @@
         <input type="checkbox" value="remember-me"> Remember me
       </label>
     </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">로그인</button>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end col-auto">
+      <input class="w-100 btn btn-lg btn-primary" type="submit" value="로그인">
+      <input class="w-100 btn btn-lg btn-secondary" type="reset" value="초기화">
+    </div>
     <p class="mt-5 mb-3 text-muted">© 2022</p>
   </form>
 </main>
