@@ -25,6 +25,9 @@
 ### 로그인
 <img alt="로그인.png" src="로그인.png"/>
 
+### 회원가입
+<img alt="회원가입.png" src="회원가입.png"/>
+
 ### 게시글
 <img alt="게시글.png" src="게시글.png"/>
 

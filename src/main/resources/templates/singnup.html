@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>장세웅의 게시판</title>
+
+  <link href="../static/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+        crossorigin="anonymous">
+  <link href="../static/css/signin.css" rel="stylesheet">
+</head>
+<body>
+<main class="form-signin w-100 m-auto">
+  <form>
+    <div>
+      <span style="font-size:3em;">🚀 회원가입</span>
+      <h1 class="h4 mb-3 fw-normal">아래 정보를 입력해주세요.</h1>
+
+      <div class="form-floating mb-3">
+        <input type="id" class="form-control" id="floatingInput" placeholder="user id">
+        <label for="floatingInput">ID</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="id" class="form-control" id="floatingEmail" placeholder="Email">
+        <label for="floatingEmail">Email</label>
+      </div>
+      <div class="form-floating mb-3">
+        <input type="id" class="form-control" id="floatingPhone" placeholder="Phone">
+        <label for="floatingPhone">Phone(-를 제외하고 입력하세요.)</label>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end col-auto">
+        <input class="w-100 btn btn-lg btn-primary" type="submit" value="가입완료">
+        <input class="w-100 btn btn-lg btn-secondary" type="reset" value="초기화">
+      </div>
+
+    </div>
+  </form>
+</main>
+</body>
+</html>
