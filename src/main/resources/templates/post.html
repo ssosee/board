@@ -24,7 +24,15 @@
       </div>
       <div class="mb-3">
         <label for="photo" class="form-label">📷 사진첨부</label>
-        <input type="file" class="form-control" name="file" id="photo" value="첨부파일" placeholder="첨부파일" multiple>
+        <input type="file" class="form-control" name="photo" accept="image/*" id="photo" value="첨부파일" placeholder="첨부파일" multiple>
+        <script>
+          if( document.getElementById("photo").files == 0 ){
+            console.log(document.getElementById("photo").files.length)
+            console.log("선택된 사진이 없습니다.");
+          } else if(document.getElementById("photo").files.length >= 5) {
+            console.log("5개 이하의 사진만 업로드 가능합니다.")
+          }
+        </script>
       </div>
 
       <div class="d-grid gap-2 d-md-flex justify-content-md-end col-auto">
