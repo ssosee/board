@@ -19,12 +19,12 @@ public class SignupController {
     private final LoginService loginService;
 
     @GetMapping("/member")
-    public String addForm(@ModelAttribute("signupForm") SignupForm signupForm) {
+    public String signupForm(@ModelAttribute("signupForm") SignupForm signupForm) {
         return "signup";
     }
 
     @PostMapping("/member")
-    public String add(@Valid @ModelAttribute SignupForm signupForm, BindingResult bindingResult) {
+    public String signup(@Valid @ModelAttribute SignupForm signupForm, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "signup";
         }

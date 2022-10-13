@@ -27,9 +27,9 @@
       <h1 class="h4 mb-3 fw-normal">아래 정보를 입력해주세요.</h1>
 
       <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" th:field="*{userId}"
+        <input type="text" class="form-control" id="floatingUserId" th:field="*{userId}"
                th:errorclass="is-invalid" placeholder="user id">
-        <label for="floatingInput">ID</label>
+        <label for="floatingUserId">ID</label>
         <div class="field-error" th:errors="*{userId}"></div>
       </div>
       <div class="form-floating mb-3">
@@ -42,7 +42,7 @@
         <input type="email" class="form-control" id="floatingEmail"
                th:errorclass="is-invalid" th:field="*{email}" placeholder="Email">
         <label for="floatingEmail">Email</label>
-        <div class="field-error" th:errors="*{email}"></div>x
+        <div class="field-error" th:errors="*{email}"></div>
       </div>
       <div class="form-floating mb-3">
         <input type="tel" class="form-control" id="floatingPhone"
