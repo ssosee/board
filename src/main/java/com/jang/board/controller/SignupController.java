@@ -9,21 +9,23 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
 
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/member")
 public class SignupController {
     private final LoginService loginService;
 
-    @GetMapping("/member")
+    @GetMapping("/signup")
     public String signupForm(@ModelAttribute("signupForm") SignupForm signupForm) {
         return "signup";
     }
 
-    @PostMapping("/member")
+    @PostMapping("/signup")
     public String signup(@Valid @ModelAttribute SignupForm signupForm, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return "signup";

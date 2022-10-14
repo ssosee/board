@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <title>장세웅의 게시판</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link th:href="@{/css/bootstrap.min.css}"
         href="../css/bootstrap.min.css" rel="stylesheet">
-  <link th:href="@{/css/signin.css}" rel="stylesheet">
+  <link th:href="@{/css/signup.css}" rel="stylesheet">
   <style>
     .container {
       max-width: 560px;
@@ -16,46 +16,48 @@
     }
   </style>
 </head>
-<body>
-<main class="form-signin w-100 m-auto">
-  <form action="" th:action th:object="${signupForm}" method="post">
-    <div th:if="${#fields.hasGlobalErrors()}">
-      <p class="is-invalid" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
-    </div>
-    <div>
-      <span style="font-size:3em;">🚀 회원가입</span>
-      <h1 class="h4 mb-3 fw-normal">아래 정보를 입력해주세요.</h1>
+<body class="text-center">
+  <main class="form-signup w-100 m-auto">
+    <form action="" th:action th:object="${signupForm}" method="post">
+      <div th:if="${#fields.hasGlobalErrors()}">
+        <p class="is-invalid" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+      </div>
+        <span style="font-size:3em;">🚀 회원가입</span>
+        <h1 class="h4 mb-3 fw-normal">아래 정보를 입력해주세요.</h1>
 
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingUserId" th:field="*{userId}"
-               th:errorclass="is-invalid" placeholder="user id">
-        <label for="floatingUserId">ID</label>
-        <div class="field-error" th:errors="*{userId}"></div>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="password" class="form-control" id="floatingPassword"
-               th:errorclass="is-invalid" th:field="*{password}" placeholder="Password">
-        <label for="floatingPassword">Password</label>
-        <div class="field-error" th:errors="*{password}"></div>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="email" class="form-control" id="floatingEmail"
-               th:errorclass="is-invalid" th:field="*{email}" placeholder="Email">
-        <label for="floatingEmail">Email</label>
-        <div class="field-error" th:errors="*{email}"></div>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="tel" class="form-control" id="floatingPhone"
-               th:errorclass="is-invalid" th:field="*{phone}" placeholder="Phone">
-        <label for="floatingPhone">Phone(-를 제외하고 입력하세요.)</label>
-        <div class="field-error" th:errors="*{phone}"></div>
-      </div>
-      <div class="d-grid gap-2 d-md-flex justify-content-md-end col-auto">
-        <button class="w-100 btn btn-lg btn-primary" type="submit">가입완료</button>
-        <input class="w-100 btn btn-lg btn-secondary" type="reset" value="초기화">
-      </div>
-    </div>
-  </form>
-</main>
+        <div class="form-floating mb-3">
+          <input type="text" class="form-control" id="floatingUserId" th:field="*{userId}"
+                 th:errorclass="is-invalid" placeholder="user id">
+          <label for="floatingUserId">ID</label>
+          <div class="field-error" th:errors="*{userId}"></div>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="password" class="form-control" id="floatingPassword"
+                 th:errorclass="is-invalid" th:field="*{password}" placeholder="Password">
+          <label for="floatingPassword">Password</label>
+          <div class="field-error" th:errors="*{password}"></div>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="email" class="form-control" id="floatingEmail"
+                 th:errorclass="is-invalid" th:field="*{email}" placeholder="Email">
+          <label for="floatingEmail">Email</label>
+          <div class="field-error" th:errors="*{email}"></div>
+        </div>
+
+        <div class="form-floating mb-3">
+          <input type="tel" class="form-control" id="floatingPhone"
+                 th:errorclass="is-invalid" th:field="*{phone}" placeholder="Phone">
+          <label for="floatingPhone">Phone(-를 제외하고 입력하세요.)</label>
+          <div class="field-error" th:errors="*{phone}"></div>
+        </div>
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end col-auto">
+          <button class="w-100 btn btn-lg btn-primary" type="submit">가입완료</button>
+          <input class="w-100 btn btn-lg btn-secondary" type="reset" value="초기화">
+        </div>
+    </form>
+  </main>
 </body>
 </html>
