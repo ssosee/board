@@ -19,6 +19,6 @@ public class Photo extends BaseTime {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
     private Post post;
-    private String upload_file_name;
-    private String store_file_name;
+    private String uploadFileName;
+    private String storeFileName;
 }

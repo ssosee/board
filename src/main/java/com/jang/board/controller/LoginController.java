@@ -31,7 +31,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute LoginForm loginForm, BindingResult bindingResult,
-                        @RequestParam(defaultValue = "/") String redirectUrl,
+                        @RequestParam(defaultValue = "/home") String redirectUrl,
                         HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {

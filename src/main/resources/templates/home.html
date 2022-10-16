@@ -21,12 +21,14 @@
             </div>
         </header>
 
-        <main class="px-3">
+        <main class="m-auto" style="align-items: center; padding: 15px; max-width: 400px" >
+            <span style="font-size: 5em;">📋</span>
             <h1>장세웅의 게시판</h1>
             <p class="lead">장세웅의 게시판에 오신것을 환영합니다. 🤗</p>
-            <p class="lead">
-                <button class="w-50 btn btn-lg btn-primary mb-3" th:onclick="|location.href='@{/member/signup}'|" type="button">회원가입</button>
-                <button class="w-50 btn btn-lg btn-success mb-3" th:onclick="|location.href='@{/member/login}'|" type="button">로그인</button>
+            <p class="d-grid d-md-flex justify-content-md-end col-auto">
+                <button class="btn btn-lg btn-primary mb-3 w-auto" th:onclick="|location.href='@{/member/signup}'|" type="button">회원가입</button>
+                <button class="btn btn-lg btn-success mb-3 w-auto" th:onclick="|location.href='@{/member/login}'|" type="button">로그인</button>
+                <button class="btn btn-lg btn-warning mb-3 w-auto" th:onclick="|location.href='@{/member/post}'|" type="button">게시글 작성</button>
             </p>
         </main>
 
