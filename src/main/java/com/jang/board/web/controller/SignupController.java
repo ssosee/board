@@ -30,6 +30,7 @@ public class SignupController {
         if(bindingResult.hasErrors()) {
             return "signup";
         }
+
         log.info(signupForm.toString());
         loginService.singnup(signupForm.getUserId(), signupForm.getPassword(), signupForm.getEmail(), signupForm.getPhone());
         return "redirect:/member/login";

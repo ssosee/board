@@ -6,32 +6,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link th:href="@{/css/bootstrap.min.css}"
           href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      .field-error {
+        color: #dc3545;
+      }
+    </style>
 </head>
 <body>
 <main>
   <div class="container p-5">
-    <form>
+    <form action="" th:action th:object="${postForm}" method="post">
+      <div th:if="${#fields.hasGlobalErrors()}">
+        <p class="is-invalid" th:each="err : ${#fields.hasGlobalErrors()}" th:text="${err}">전체 오류 메시지</p>
+      </div>
       <h2>✍️ 게시글 작성</h2><br>
 
       <div class="mb-3">
         <label for="title" class="form-label">제목</label>
-        <input type="text" class="form-control" id="title" placeholder="제목">
+        <input type="text" class="form-control" id="title" th:field="*{title}"
+               th:errorclass="is-invalid" placeholder="제목">
+        <div class="field-error" th:errors="*{title}"></div>
       </div>
       <div class="mb-3">
         <label for="content" class="form-label">게시글</label>
-        <textarea class="form-control" id="content" rows="5" placeholder="내용" style="resize: none; height: 350px"></textarea>
+        <textarea class="form-control" id="content" rows="5" th:field="*{content}"
+                  th:errorclass="is-invalid" placeholder="내용" style="resize: none; height: 350px"></textarea>
+        <div class="field-error" th:errors="*{content}"></div>
       </div>
       <div class="mb-3">
         <label for="photo" class="form-label">📷 사진첨부</label>
-        <input type="file" class="form-control" name="photo" accept="image/*" id="photo" value="첨부파일" placeholder="첨부파일" multiple>
-        <script>
-          if( document.getElementById("photo").files == 0 ){
-            console.log(document.getElementById("photo").files.length)
-            console.log("선택된 사진이 없습니다.");
-          } else if(document.getElementById("photo").files.length >= 5) {
-            console.log("5개 이하의 사진만 업로드 가능합니다.")
-          }
-        </script>
+        <input type="file" class="form-control" name="photo" accept="image/*" id="photo"
+               th:field="*{uploadFileName}"
+               value="첨부파일" placeholder="첨부파일" multiple>
       </div>
 
       <div class="d-grid gap-2 d-md-flex justify-content-md-end col-auto">
