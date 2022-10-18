@@ -1,4 +1,4 @@
-package com.jang.board.controller;
+package com.jang.board.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

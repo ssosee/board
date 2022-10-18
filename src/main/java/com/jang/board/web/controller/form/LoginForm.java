@@ -1,4 +1,4 @@
-package com.jang.board.controller.form;
+package com.jang.board.web.controller.form;
 
 import lombok.Data;
 

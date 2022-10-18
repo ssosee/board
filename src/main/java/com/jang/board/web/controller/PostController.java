@@ -1,6 +1,6 @@
-package com.jang.board.controller;
+package com.jang.board.web.controller;
 
-import com.jang.board.controller.form.PostForm;
+import com.jang.board.web.controller.form.PostForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

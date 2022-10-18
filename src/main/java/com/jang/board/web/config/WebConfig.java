@@ -1,0 +1,22 @@
+package com.jang.board.web.config;
+
+import com.jang.board.web.interceptor.LoginCheckInterceptor;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(1)
+                .addPathPatterns("/**")
+                .excludePathPatterns(
+                        "/home", "/member/login", "/member/logout", "/member/signup",
+                        "/css/**", "/*.ico", "/error"
+                );
+    }
+}

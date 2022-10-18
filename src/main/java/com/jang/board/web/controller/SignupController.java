@@ -1,6 +1,6 @@
-package com.jang.board.controller;
+package com.jang.board.web.controller;
 
-import com.jang.board.controller.form.SignupForm;
+import com.jang.board.web.controller.form.SignupForm;
 import com.jang.board.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
