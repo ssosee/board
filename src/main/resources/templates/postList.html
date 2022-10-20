@@ -2,11 +2,10 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>장세웅의 게시판</title>
-    <link href="../static/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-          crossorigin="anonymous">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <main>
@@ -34,11 +33,11 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr style="text-align: center">
-                    <td>1</td>
-                    <td>2022-10-02</td>
-                    <td>테스트</td>
-                    <td>장세웅</td>
+                <tr style="text-align: center" th:each="value : ${postDtos}">
+                    <td th:field="*{value.id}"></td>
+                    <td th:field="*{value.writeTime}"></td>
+                    <td th:field="*{value.title}"></td>
+                    <td th:field="*{value.author}"></td>
                 </tr>
                 </tbody>
             </table>

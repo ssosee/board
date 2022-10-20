@@ -8,6 +8,8 @@ import com.jang.board.repository.PhotoRepository;
 import com.jang.board.repository.PostRepository;
 import com.jang.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,4 +47,14 @@ public class PostServiceImpl implements PostService {
 
         return post.getId();
     }
+
+    @Override
+    public Page<Post> findPosts(Pageable pageable) {
+        //게시글 조회
+        Page<Post> posts = postRepository.findPostsBy(pageable);
+
+        return posts;
+    }
+
+
 }

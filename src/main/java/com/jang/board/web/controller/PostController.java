@@ -5,16 +5,24 @@ import com.jang.board.domain.Post;
 import com.jang.board.repository.PostRepository;
 import com.jang.board.service.PostService;
 import com.jang.board.web.controller.form.PostForm;
+import com.jang.board.web.dto.PostsDto;
 import com.jang.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * PRG 패턴 적용
@@ -51,11 +59,16 @@ public class PostController {
 
         postService.addPost(postForm.getTitle(), postForm.getContent(), postForm.getUploadFileName(), sessionMember.getId());
 
-        return "redirect:/postList";
+        return "redirect:/member/postList";
     }
 
     @GetMapping("/postList")
-    public String postList() {
+    public String postList(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+
+        Page<Post> posts = postService.findPosts(pageable);
+        Page<PostsDto> postsDtos = posts.map((Post p) -> new PostsDto());
+        model.addAttribute("postDtos", postsDtos);
+
         return "postList";
     }
 }
