@@ -34,25 +34,33 @@
                 </thead>
                 <tbody>
                 <tr style="text-align: center" th:each="value : ${postDtos}">
-                    <td th:field="*{value.id}"></td>
-                    <td th:field="*{value.writeTime}"></td>
-                    <td th:field="*{value.title}"></td>
-                    <td th:field="*{value.author}"></td>
+                    <td th:text="*{value.id}"></td>
+                    <td th:text="*{value.writeTime}"></td>
+                    <td th:text="*{value.title}"></td>
+                    <td th:text="*{value.author}"></td>
                 </tr>
                 </tbody>
             </table>
 
             <div class="pt-5">
                 <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link">이전</a>
+                    <ul class="pagination justify-content-center"
+                        th:with="start=${(postDtos.number/maxPage)*maxPage + 1},
+                        end=(${(postDtos.totalPages == 0) ? 1 : (start + (maxPage - 1) < postDtos.totalPages ? start + (maxPage - 1) : postDtos.totalPages)})">
+                        <li class="page-item" th:if="${start > 1}">
+                            <a class="page-link" th:href="|@{/member/postList(page=0)}|">처음</a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">다음</a>
+                        <li class="page-item" th:if="${start > 1}">
+                            <a class="page-link" th:href="|@{/member/postList(page=${start - maxPage})}|">이전</a>
+                        </li>
+                        <li class="page-item" th:each="page : ${#numbers.sequence(start, end)}">
+                            <a class="page-link" th:text="${page}" th:href="|@{/member/postList(page=${page - 1})}|">1</a>
+                        </li>
+                        <li class="page-item" th:if="${end < postDtos.totalPages}">
+                            <a class="page-link" th:href="|@{/member/postList(page=${start + maxPage})}|">다음</a>
+                        </li>
+                        <li class="page-item" th:if="${end < postDtos.totalPages}" th:href="|@{/member/postList(page=${postDtos.totalPages - 1})}|">
+                            <a class="page-link" href="#">마지막</a>
                         </li>
                     </ul>
                 </nav>

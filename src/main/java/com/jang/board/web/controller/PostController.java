@@ -22,6 +22,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -66,8 +68,12 @@ public class PostController {
     public String postList(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable, Model model) {
 
         Page<Post> posts = postService.findPosts(pageable);
-        Page<PostsDto> postsDtos = posts.map((Post p) -> new PostsDto());
+        Page<PostsDto> postsDtos =
+                posts.map(p -> new PostsDto(
+                        p.getId(), p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), p.getTitle(), p.getContent()
+                ));
         model.addAttribute("postDtos", postsDtos);
+        model.addAttribute("maxPage", 10);
 
         return "postList";
     }
