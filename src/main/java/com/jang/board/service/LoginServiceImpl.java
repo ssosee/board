@@ -46,6 +46,7 @@ public class LoginServiceImpl implements LoginService {
     private Optional<Member> validationLogin(String userId, String password) {
         Optional<Member> findMember = memberRepository.findMemberByUserIdAndPassword(userId, password);
         if(findMember.isEmpty()) throw new IllegalArgumentException("아이디 또는 비밀번호를 확인해주세요.");
+
         return findMember;
     }
 }

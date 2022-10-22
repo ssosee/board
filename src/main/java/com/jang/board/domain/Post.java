@@ -26,6 +26,7 @@ public class Post extends BaseTime {
         Post post = new Post();
         post.changePost(title, content, member);
         post.member = member;
+
         return post;
     }
 

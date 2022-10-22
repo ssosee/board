@@ -45,7 +45,7 @@
             <div class="pt-5">
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center"
-                        th:with="start=${(postDtos.number/maxPage)*maxPage + 1},
+                        th:with="start=${T(Math).floor(postDtos.number/maxPage)*maxPage + 1},
                         end=(${(postDtos.totalPages == 0) ? 1 : (start + (maxPage - 1) < postDtos.totalPages ? start + (maxPage - 1) : postDtos.totalPages)})">
                         <li class="page-item" th:if="${start > 1}">
                             <a class="page-link" th:href="|@{/member/postList(page=0)}|">처음</a>
