@@ -25,7 +25,7 @@ public class Init {
         Long memberId = loginService.singnup("admin", "1", "howisitgoing@kakao.com", "01012341234");
 
         List<String> fileNames = Arrays.asList("사진1","사진2","사진3");
-        for(int i = 0; i < 100; i++) {
+        for(int i = 0; i < 134; i++) {
             Long postId = postService.addPost("안녕하세요"+i, "테스트입니다."+i, fileNames, memberId);
         }
     }

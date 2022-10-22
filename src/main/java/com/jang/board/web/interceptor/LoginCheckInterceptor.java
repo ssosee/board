@@ -27,6 +27,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             return false;
         } else if (requestUrl.equals("/")) {
             response.sendRedirect("/home");
+            return false;
         }
 
         return true;
