@@ -28,7 +28,7 @@ public class SignupController {
     @PostMapping("/signup")
     public String signup(@Valid @ModelAttribute SignupForm signupForm, BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
-            return "signup";
+            return "signupForm";
         }
 
         log.info(signupForm.toString());

@@ -46,7 +46,7 @@ public class PostController {
     public String post(@Valid @ModelAttribute PostForm postForm, BindingResult bindingResult, HttpServletRequest request) {
 
         if(bindingResult.hasErrors()) {
-            return "post";
+            return "postForm";
         }
 
         //로그인한 회원만 작성 가능
@@ -62,16 +62,21 @@ public class PostController {
     }
 
     @GetMapping("/postList")
-    public String postList(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+    public String postListForm(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable, Model model) {
 
         Page<Post> posts = postService.findPosts(pageable);
         Page<PostsDto> postsDtos =
                 posts.map(p -> new PostsDto(
-                        p.getId(), p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")), p.getTitle(), p.getMember().getUserId()
+                        p.getId(), p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")), p.getTitle(), p.getMember().getUserId()
                 ));
         model.addAttribute("postDtos", postsDtos);
         model.addAttribute("maxPage", 10);
 
         return "postList";
+    }
+
+    @GetMapping("/postRead")
+    public String searchPostList() {
+        return "postRead";
     }
 }

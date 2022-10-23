@@ -8,67 +8,67 @@
           href="../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<main>
-    <div class="container p-5">
-        <form>
-        <h2>📋 게시글 목록</h2><br>
-            <div class="input-group mb-4">
-                <span class="input-group-text" id="inputGroup-sizing-default">검색</span>
-                <select class="form-select">
-                    <option selected>제목</option>
-                    <option value="1">내용</option>
-                    <option value="2">작성자</option>
-                    <option value="3">일시</option>
-                </select>
-                <input type="text" class="form-control" placeholder="글을 입력하세요.">
-                <input type="submit" class="btn btn-primary" value="검색">
-            </div>
-            <table class="table table-striped">
-                <thead>
-                <tr style="text-align: center">
-                    <th>번호</th>
-                    <th>일시</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr style="text-align: center" th:each="value : ${postDtos}">
-                    <td th:text="*{value.id}"></td>
-                    <td th:text="*{value.writeTime}"></td>
-                    <td th:text="*{value.title}"></td>
-                    <td th:text="*{value.author}"></td>
-                </tr>
-                </tbody>
-            </table>
+    <main>
+        <div class="container p-5">
+            <form>
+            <h2>📋 게시글 목록</h2><br>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">검색</span>
+                    <select class="form-select">
+                        <option selected>제목</option>
+                        <option value="1">내용</option>
+                        <option value="2">작성자</option>
+                        <option value="3">일시</option>
+                    </select>
+                    <input type="text" class="form-control" placeholder="글을 입력하세요.">
+                    <input type="submit" class="btn btn-primary" value="검색">
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr style="text-align: center">
+                        <th>번호</th>
+                        <th>일시</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr style="text-align: center" th:each="value : ${postDtos}">
+                        <td th:text="*{value.id}"></td>
+                        <td th:text="*{value.writeTime}"></td>
+                        <td th:text="*{value.title}"></td>
+                        <td th:text="*{value.author}"></td>
+                    </tr>
+                    </tbody>
+                </table>
 
-            <div class="pt-5">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center"
-                        th:with="start=${T(java.lang.Math).floor(postDtos.number/maxPage)*maxPage + 1},
-                        end=(${start + (maxPage - 1) < postDtos.totalPages ? start + (maxPage - 1) : postDtos.totalPages})">
-                        <li th:class="${postDtos.first} ? 'page-item disabled' : 'page-item'">
-                            <a class="page-link" th:href="@{/member/postList(page=0)}">처음</a>
-                        </li>
-                        <li th:class="${postDtos.first} ? 'page-item disabled' : 'page-item'">
-                            <a class="page-link" th:href="@{/member/postList(page=${postDtos.number - 1})}">이전</a>
-                        </li>
-                        <li th:each="page : ${#numbers.sequence(start, end)}"
-                            th:class="${page == postDtos.number + 1} ? 'page-item disabled' : 'page-item'">
-                            <a class="page-link"
-                               th:text="${page}" th:href="@{/member/postList(page=${page - 1})}"></a>
-                        </li>
-                        <li th:class="${postDtos.last} ? 'page-item disabled' : 'page-item'">
-                            <a class="page-link" th:href="@{/member/postList(page=${postDtos.number + 1})}">다음</a>
-                        </li>
-                        <li th:class="${postDtos.last} ? 'page-item disabled' : 'page-item'">
-                            <a class="page-link" th:href="@{/member/postList(page=${postDtos.totalPages - 1})}">마지막</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </form>
-    </div>
-</main>
+                <div class="pt-5">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center"
+                            th:with="start=${T(java.lang.Math).floor(postDtos.number/maxPage)*maxPage + 1},
+                            end=(${start + (maxPage - 1) < postDtos.totalPages ? start + (maxPage - 1) : postDtos.totalPages})">
+                            <li th:class="${postDtos.first} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/member/postList(page=0)}">처음</a>
+                            </li>
+                            <li th:class="${postDtos.first} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.number - 1})}">이전</a>
+                            </li>
+                            <li th:each="page : ${#numbers.sequence(start, end)}"
+                                th:class="${page == postDtos.number + 1} ? 'page-item active' : 'page-item'">
+                                <a class="page-link"
+                                   th:text="${page}" th:href="@{/member/postList(page=${page - 1})}"></a>
+                            </li>
+                            <li th:class="${postDtos.last} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.number + 1})}">다음</a>
+                            </li>
+                            <li th:class="${postDtos.last} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.totalPages - 1})}">마지막</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </form>
+        </div>
+    </main>
 </body>
 </html>
