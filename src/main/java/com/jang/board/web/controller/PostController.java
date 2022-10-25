@@ -6,6 +6,7 @@ import com.jang.board.repository.PostRepository;
 import com.jang.board.service.PostService;
 import com.jang.board.web.controller.form.PostForm;
 import com.jang.board.web.dto.PostsDto;
+import com.jang.board.web.file.FileStore;
 import com.jang.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +18,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.File;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * PRG 패턴 적용
@@ -36,10 +43,11 @@ import java.time.format.DateTimeFormatter;
 public class PostController {
 
     private final PostService postService;
+    private final FileStore fileStore;
 
     @GetMapping("/post")
     public String postForm(@ModelAttribute("postForm") PostForm postForm) {
-        return "post";
+        return "postForm";
     }
 
     @PostMapping("/post")
@@ -56,7 +64,11 @@ public class PostController {
             return "redirect:/member/login";
         }
 
-        postService.addPost(postForm.getTitle(), postForm.getContent(), postForm.getUploadFileName(), sessionMember.getId());
+        List<String> fileName = postForm.getImageFile().stream()
+                        .map(f -> f.getOriginalFilename()).collect(Collectors.toList());
+
+        postService.addPost(postForm.getTitle(), postForm.getContent(), fileName, sessionMember.getId());
+        fileStore.saveFile(postForm.getImageFile()); //파일 저장
 
         return "redirect:/member/postList";
     }

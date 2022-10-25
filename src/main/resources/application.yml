@@ -1,4 +1,7 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
   datasource:
     url: jdbc:h2:mem:test
     username: sa
@@ -22,3 +25,6 @@ server:
 
 logging.level:
   org.hibernate.SQL: debug
+
+file:
+  dir: "/Users/jangsea-ung/Desktop/jang/private/private_project/study/board/src/main/resources/file/"

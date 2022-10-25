@@ -16,9 +16,9 @@
 <body>
   <main>
     <div class="container p-5">
-      <form action="" th:action th:object="${postForm}" method="post">
+      <form action="" th:action th:object="${postForm}" method="post" enctype="multipart/form-data">
         <div th:if="${#fields.hasGlobalErrors()}">
-          <p class="is-invalid" th:each="err : ${#fields.hasGlobalErrors()}" th:text="${err}">전체 오류 메시지</p>
+          <p class="is-invalid" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
         </div>
         <h2>✍️ 게시글 작성</h2><br>
 
@@ -35,10 +35,9 @@
           <div class="field-error" th:errors="*{content}"></div>
         </div>
         <div class="mb-3">
-          <label for="photo" class="form-label">📷 사진첨부</label>
-          <input type="file" class="form-control" name="photo" accept="image/*" id="photo"
-                 th:field="*{uploadFileName}"
-                 value="첨부파일" placeholder="첨부파일" multiple>
+          <label for="imageFile" class="form-label">📷 사진첨부</label>
+          <input type="file" class="form-control" name="imageFile" id="imageFile"
+                 multiple="multiple" value="첨부파일" placeholder="첨부파일">
         </div>
 
         <div class="d-grid gap-2 d-md-flex justify-content-md-end col-auto">

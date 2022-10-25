@@ -6,12 +6,14 @@ import com.jang.board.domain.Post;
 import com.jang.board.repository.MemberRepository;
 import com.jang.board.repository.PhotoRepository;
 import com.jang.board.repository.PostRepository;
+import com.jang.board.web.file.FileStore;
 import com.jang.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
     private final PhotoRepository photoRepository;
+    private final FileStore fileStore;
 
     @Override
     @Transactional
@@ -55,6 +58,4 @@ public class PostServiceImpl implements PostService {
 
         return posts;
     }
-
-
 }
