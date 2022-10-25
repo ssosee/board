@@ -48,10 +48,10 @@
                             th:with="start=${T(java.lang.Math).floor(postDtos.number/maxPage)*maxPage + 1},
                             end=(${start + (maxPage - 1) < postDtos.totalPages ? start + (maxPage - 1) : postDtos.totalPages})">
                             <li th:class="${postDtos.first} ? 'page-item disabled' : 'page-item'">
-                                <a class="page-link" th:href="@{/member/postList(page=0)}">처음</a>
+                                <a class="page-link" th:href="@{/member/postList(page=0)}">&lt;&lt;</a>
                             </li>
                             <li th:class="${postDtos.first} ? 'page-item disabled' : 'page-item'">
-                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.number - 1})}">이전</a>
+                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.number - 1})}">&lt;</a>
                             </li>
                             <li th:each="page : ${#numbers.sequence(start, end)}"
                                 th:class="${page == postDtos.number + 1} ? 'page-item active' : 'page-item'">
@@ -59,10 +59,10 @@
                                    th:text="${page}" th:href="@{/member/postList(page=${page - 1})}"></a>
                             </li>
                             <li th:class="${postDtos.last} ? 'page-item disabled' : 'page-item'">
-                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.number + 1})}">다음</a>
+                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.number + 1})}">&gt;</a>
                             </li>
                             <li th:class="${postDtos.last} ? 'page-item disabled' : 'page-item'">
-                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.totalPages - 1})}">마지막</a>
+                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.totalPages - 1})}">&gt;&gt;</a>
                             </li>
                         </ul>
                     </nav>

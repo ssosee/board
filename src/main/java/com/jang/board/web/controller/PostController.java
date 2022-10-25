@@ -74,7 +74,7 @@ public class PostController {
     }
 
     @GetMapping("/postList")
-    public String postListForm(@PageableDefault(direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+    public String postListForm(@PageableDefault(size = 5, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
 
         Page<Post> posts = postService.findPosts(pageable);
         Page<PostsDto> postsDtos =
@@ -82,7 +82,7 @@ public class PostController {
                         p.getId(), p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")), p.getTitle(), p.getMember().getUserId()
                 ));
         model.addAttribute("postDtos", postsDtos);
-        model.addAttribute("maxPage", 10);
+        model.addAttribute("maxPage", 5);
 
         return "postList";
     }
