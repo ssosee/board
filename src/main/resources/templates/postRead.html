@@ -4,14 +4,30 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>장세웅의 게시판</title>
+  <link rel="canonical" href="https://getbootstrap.kr/docs/5.0/examples/headers/">
   <link th:href="@{/css/bootstrap.min.css}"
-        href="../css/bootstrap.min.css" rel="stylesheet">
-
+        href="https://getbootstrap.kr/docs/5.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <style>
     .img {
       max-width: 375px;
       width: auto !important;
       height: auto !important;
+    }
+    .image-box {
+      width:375px;
+      height:375px;
+      overflow:hidden;
+      margin:0 auto;
+    }
+    .image-thumbnail {
+      width:100%;
+      height:100%;
+      object-fit:cover;
     }
   </style>
 
@@ -21,8 +37,31 @@
     <div class="container p-5">
       <div class="d-flex justify-content-center">
         <div class="card mb-3 img">
-          <img src="https://w.namu.la/s/426bf4c3324155e1b82e0e046c4e61042676dc0fd5fd75cb78897be9bd4175637a5c9613642fde68a30929743919cd17c121bbb40a61245667c9a4b14c53cb0d69039df0de56be114ecdcf24820c1411bf35b7917905dbde4a366d4f101906e80ea2d614074e2e2692d0550521fc14de"
-                  class="card-img-top" alt="...">
+
+          <div id="carouselImage" class="carousel slide" data-bs-ride="carousel">
+
+            <div class="carousel-inner image-box">
+              <div class="carousel-item image-thumbnail active">
+                <img src="https://cdnimg.melon.co.kr/cm2/artistcrop/images/002/61/143/261143_20210325180240_500.jpg?61e575e8653e5920470a38d1482d7312/melon/optimize/90"
+                     class="card-img-top" alt="...">
+              </div>
+              <div class="carousel-item image-thumbnail">
+                <img src="https://w.namu.la/s/426bf4c3324155e1b82e0e046c4e61042676dc0fd5fd75cb78897be9bd4175637a5c9613642fde68a30929743919cd17c121bbb40a61245667c9a4b14c53cb0d69039df0de56be114ecdcf24820c1411bf35b7917905dbde4a366d4f101906e80ea2d614074e2e2692d0550521fc14de"
+                     class="card-img-top" alt="...">
+              </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselImage" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselImage" data-bs-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+
+          </div>
+
           <div class="card-body">
             <h5 class="card-title">아이유 IU</h5>
             <p class="card-text">대한민국의 가수이자 배우.
@@ -34,6 +73,7 @@
             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
           </div>
         </div>
+
       </div>
     </div>
   </main>
