@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PostService {
-    Long addPost(String title, String content, List<String> uploadFileName, Long id);
+    Long addPost(String title, String content, List<String> uploadFileNames, List<String> storeFileNames, Long id);
     Page<Post> findPosts(Pageable pageable);
+    Optional<Post> findPost(Long id);
 }

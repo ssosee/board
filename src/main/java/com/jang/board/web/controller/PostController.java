@@ -1,15 +1,19 @@
 package com.jang.board.web.controller;
 
 import com.jang.board.domain.Member;
+import com.jang.board.domain.Photo;
 import com.jang.board.domain.Post;
 import com.jang.board.repository.PostRepository;
 import com.jang.board.service.PostService;
 import com.jang.board.web.controller.form.PostForm;
+import com.jang.board.web.dto.PostReadDto;
 import com.jang.board.web.dto.PostsDto;
 import com.jang.board.web.file.FileStore;
 import com.jang.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,16 +22,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.io.File;
+import java.net.MalformedURLException;
+import java.nio.charset.MalformedInputException;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -59,16 +63,23 @@ public class PostController {
 
         //로그인한 회원만 작성 가능
         HttpSession session = request.getSession(false);
-        Member sessionMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMEBER);
+        Member sessionMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (sessionMember == null) {
             return "redirect:/member/login";
         }
 
-        List<String> fileName = postForm.getImageFile().stream()
-                        .map(f -> f.getOriginalFilename()).collect(Collectors.toList());
+        //파일 원본 이름
+        List<String> originalFilenames = postForm.getImageFile().stream()
+                .map(f -> f.getOriginalFilename())
+                .collect(Collectors.toList());
 
-        postService.addPost(postForm.getTitle(), postForm.getContent(), fileName, sessionMember.getId());
-        fileStore.saveFile(postForm.getImageFile()); //파일 저장
+        //저장 파일 이름
+        List<String> storeFilenames = fileStore.createStoreFileName(postForm.getImageFile().stream()
+                .map(f -> f.getOriginalFilename())
+                .collect(Collectors.toList()));
+
+        postService.addPost(postForm.getTitle(), postForm.getContent(), originalFilenames, storeFilenames, sessionMember.getId());
+        fileStore.saveFile(postForm.getImageFile(), storeFilenames); //파일 저장
 
         return "redirect:/member/postList";
     }
@@ -87,8 +98,27 @@ public class PostController {
         return "postList";
     }
 
-    @GetMapping("/postRead")
-    public String searchPostList() {
+    @GetMapping("/postRead/{postId}")
+    public String searchPostList(@PathVariable("postId") Long postId, Model model) {
+
+        Optional<Post> post = postService.findPost(postId);
+        Optional<PostReadDto> postReadDto = post.map(p -> new PostReadDto(p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
+                p.getTitle(),
+                p.getContent(),
+                p.getMember().getUserId(),
+                p.getPhotos().stream()
+                        .map(ph -> ph.getStoreFileName())
+                        .collect(Collectors.toList())
+                ));
+
+        model.addAttribute("postReadDto", postReadDto.get());
+
         return "postRead";
+    }
+
+    @ResponseBody
+    @GetMapping("/images/{filename}")
+    public Resource showImage(@PathVariable String filename) throws MalformedURLException {
+        return new UrlResource("file:"+fileStore.getFullPath(filename));
     }
 }

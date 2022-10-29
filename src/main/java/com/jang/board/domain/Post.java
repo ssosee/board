@@ -20,13 +20,14 @@ public class Post extends BaseTime {
     private String title;
     @Lob
     private String content;
+    @OneToMany(mappedBy = "post")
+    private List<Photo> photos = new ArrayList<>();
 
     @Builder
-    public static Post createPost(String title, String content, Member member) {
+    public static Post createPost(String title, String content, Member member, List<Photo> photos) {
         Post post = new Post();
         post.changePost(title, content, member);
-        post.member = member;
-
+        post.changePhoto(photos);
         return post;
     }
 
@@ -34,6 +35,18 @@ public class Post extends BaseTime {
         this.title = title;
         this.content = content;
         this.member = member;
+    }
+
+    //==연관관계 편의 메서드==
+    private void changePhoto(List<Photo> photos) {
+        this.photos = photos;
+        for (Photo photo : photos) {
+            photo.changePost(this);
+        }
+    }
+
+    private void setPhotos(Photo photo) {
+        this.photos = photos;
     }
 
 }

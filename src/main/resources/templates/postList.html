@@ -33,11 +33,12 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr style="text-align: center" th:each="value : ${postDtos}">
-                        <td th:text="*{value.id}"></td>
-                        <td th:text="*{value.writeTime}"></td>
-                        <td th:text="*{value.title}"></td>
-                        <td th:text="*{value.author}"></td>
+                    <tr style="text-align: center; cursor: pointer" th:each="value : ${postDtos}"
+                        th:onclick="|location.href='@{/member/postRead/{id} (id=*{value.id})}'|">
+                        <td th:text="${value.id}"></td>
+                        <td th:text="${value.writeTime}"></td>
+                        <td th:text="${value.title}"></td>
+                        <td th:text="${value.author}"></td>
                     </tr>
                     </tbody>
                 </table>

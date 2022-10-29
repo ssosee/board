@@ -1,7 +1,7 @@
 spring:
   servlet:
     multipart:
-      max-file-size: 5MB
+      max-file-size: 10MB
   datasource:
     url: jdbc:h2:mem:test
     username: sa
@@ -22,9 +22,13 @@ server:
   servlet:
     session:
       tracking-modes: cookie
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
 
 logging.level:
   org.hibernate.SQL: debug
 
 file:
-  dir: "/Users/jangsea-ung/Desktop/jang/private/private_project/study/board/src/main/resources/file/"
+  dir: "/Users/jangsea-ung/Desktop/jang/private/private_project/study/board/src/main/resources/static/file/image/"

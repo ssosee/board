@@ -32,19 +32,25 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Long addPost(String title, String content, List<String> uploadFileName, Long id) {
+    public Long addPost(String title, String content, List<String> uploadFileNames, List<String> storeFileNames, Long id) {
 
         //회원 조회
         Optional<Member> optionalMember = memberRepository.findById(id);
         Member findMember = optionalMember.orElseThrow(() -> new IllegalArgumentException("없는 회원 입니다."));
 
-        //게시글 저장
-        Post post = Post.createPost(title, content, findMember);
+        //사진 파일 갯수 만큼 사진 생성
+        List<Photo> photos = new ArrayList<>();
+        for(int i = 0; i < uploadFileNames.size(); i++) {
+            Photo photo = Photo.createPhoto(findMember, uploadFileNames.get(i), storeFileNames.get(i));
+            photos.add(photo);
+        }
+
+        //게시글 생성
+        Post post = Post.createPost(title, content, findMember, photos);
         postRepository.save(post);
 
-        //사진 파일 갯수 만큼 사진 저장
-        for(String fileName : uploadFileName) {
-            Photo photo = Photo.createPhoto(findMember, post, fileName);
+        //사진 저장
+        for (Photo photo : photos) {
             photoRepository.save(photo);
         }
 
@@ -54,8 +60,16 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<Post> findPosts(Pageable pageable) {
         //게시글 조회
-        Page<Post> posts = postRepository.findPostsBy(pageable);
+        Page<Post> findPosts = postRepository.findPostsBy(pageable);
 
-        return posts;
+        return findPosts;
+    }
+
+    @Override
+    public Optional<Post> findPost(Long id) {
+        //게시글 단건 조회
+        Optional<Post> findPost = postRepository.findById(id);
+
+        return findPost;
     }
 }

@@ -22,7 +22,7 @@ public class SignupController {
 
     @GetMapping("/signup")
     public String signupForm(@ModelAttribute("signupForm") SignupForm signupForm) {
-        return "signup";
+        return "signupForm";
     }
 
     @PostMapping("/signup")
