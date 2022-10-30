@@ -6,6 +6,7 @@ import com.jang.board.domain.Post;
 import com.jang.board.repository.PostRepository;
 import com.jang.board.service.PostService;
 import com.jang.board.web.controller.form.PostForm;
+import com.jang.board.web.controller.form.PostListForm;
 import com.jang.board.web.dto.PostReadDto;
 import com.jang.board.web.dto.PostsDto;
 import com.jang.board.web.file.FileStore;
@@ -87,19 +88,24 @@ public class PostController {
     @GetMapping("/postList")
     public String postListForm(@PageableDefault(size = 5, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
 
-        Page<Post> posts = postService.findPosts(pageable);
+        log.info("model.getAttribute(\"PostListForm\")={}", model.getAttribute("PostListForm"));
+
+        Page<Post> posts = postService.findPosts(pageable, null);
         Page<PostsDto> postsDtos =
                 posts.map(p -> new PostsDto(
                         p.getId(), p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")), p.getTitle(), p.getMember().getUserId()
                 ));
         model.addAttribute("postDtos", postsDtos);
         model.addAttribute("maxPage", 5);
+        model.addAttribute("PostListForm", new PostListForm());
 
         return "postList";
     }
 
+    @PostMapping
+
     @GetMapping("/postRead/{postId}")
-    public String searchPostList(@PathVariable("postId") Long postId, Model model) {
+    public String readPostList(@PathVariable("postId") Long postId, Model model) {
 
         Optional<Post> post = postService.findPost(postId);
         Optional<PostReadDto> postReadDto = post.map(p -> new PostReadDto(p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
@@ -120,5 +126,15 @@ public class PostController {
     @GetMapping("/images/{filename}")
     public Resource showImage(@PathVariable String filename) throws MalformedURLException {
         return new UrlResource("file:"+fileStore.getFullPath(filename));
+    }
+
+    @ModelAttribute("postListForms")
+    public List<PostListForm> postListForms() {
+        List<PostListForm> postListForms = new ArrayList<>();
+        postListForms.add(new PostListForm("title", "제목"));
+        postListForms.add(new PostListForm("content", "내용"));
+        postListForms.add(new PostListForm("author", "작성자"));
+
+        return postListForms;
     }
 }

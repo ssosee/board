@@ -58,9 +58,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<Post> findPosts(Pageable pageable) {
+    public Page<Post> findPosts(Pageable pageable, String searchParam) {
         //게시글 조회
         Page<Post> findPosts = postRepository.findPostsBy(pageable);
+        //postRepository.findPostsByTitleOrContentOrAuthor(pageable, searchParam)
 
         return findPosts;
     }
