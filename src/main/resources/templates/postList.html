@@ -12,16 +12,19 @@
         <div class="container p-5">
             <form>
             <h2>📋 게시글 목록</h2><br>
-                <div class="input-group mb-4" th:object="${PostListForm}">
+                <div class="input-group mb-4" th:object="${searchPostForm}">
                     <span class="input-group-text" id="inputGroup-sizing-default">검색</span>
-                    <select class="form-select" th:field="*{searchParam}">
-                        <option th:each="postListForm : ${postListForms}"
-                                th:value="${postListForm.searchCode}"
-                                th:text="${postListForm.searchParam}"></option>
+                    <select class="form-select" th:field="*{searchType}">
+                        <option th:each="searchTypeForm : ${searchTypeForms}"
+                                th:value="${searchTypeForm.searchType}"
+                                th:text="${searchTypeForm.displayName}">
+                        </option>
                     </select>
-                    <input type="text" class="form-control" placeholder="글을 입력하세요.">
-                    <input type="submit" class="btn btn-primary" value="검색" th:onclick="|location.herf='@{/member/postList(searchParam=${searchParam})}'|">
+                    <input type="text" th:field="*{keyword}" class="form-control" placeholder="글을 입력하세요.">
+                    <button type="button" class="btn btn-primary"
+                            th:onclick="|location.href='@{/member/postList (searchType=*{searchType}, keyword=*{keyword})}'|">검색</button>
                 </div>
+
                 <table class="table table-striped">
                     <thead>
                     <tr style="text-align: center">

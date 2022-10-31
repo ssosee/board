@@ -6,7 +6,8 @@ import com.jang.board.domain.Post;
 import com.jang.board.repository.PostRepository;
 import com.jang.board.service.PostService;
 import com.jang.board.web.controller.form.PostForm;
-import com.jang.board.web.controller.form.PostListForm;
+import com.jang.board.web.controller.form.SearchPostForm;
+import com.jang.board.web.controller.form.SearchTypeForm;
 import com.jang.board.web.dto.PostReadDto;
 import com.jang.board.web.dto.PostsDto;
 import com.jang.board.web.file.FileStore;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -86,23 +88,25 @@ public class PostController {
     }
 
     @GetMapping("/postList")
-    public String postListForm(@PageableDefault(size = 5, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable, Model model) {
-
-        log.info("model.getAttribute(\"PostListForm\")={}", model.getAttribute("PostListForm"));
+    public String postListForm(@PageableDefault(size = 5, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable,
+                               @ModelAttribute("searchPostForm") SearchPostForm searchPostForm,
+                               Model model) {
 
         Page<Post> posts = postService.findPosts(pageable, null);
         Page<PostsDto> postsDtos =
                 posts.map(p -> new PostsDto(
                         p.getId(), p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")), p.getTitle(), p.getMember().getUserId()
                 ));
+
+        model.addAttribute("searchTypeForms", SearchTypeForm.createSearchTypeForm());
         model.addAttribute("postDtos", postsDtos);
         model.addAttribute("maxPage", 5);
-        model.addAttribute("PostListForm", new PostListForm());
+
+        log.info("keyword={}", searchPostForm.getKeyword());
+        log.info("searchType={}", searchPostForm.getSearchType());
 
         return "postList";
     }
-
-    @PostMapping
 
     @GetMapping("/postRead/{postId}")
     public String readPostList(@PathVariable("postId") Long postId, Model model) {
@@ -126,15 +130,5 @@ public class PostController {
     @GetMapping("/images/{filename}")
     public Resource showImage(@PathVariable String filename) throws MalformedURLException {
         return new UrlResource("file:"+fileStore.getFullPath(filename));
-    }
-
-    @ModelAttribute("postListForms")
-    public List<PostListForm> postListForms() {
-        List<PostListForm> postListForms = new ArrayList<>();
-        postListForms.add(new PostListForm("title", "제목"));
-        postListForms.add(new PostListForm("content", "내용"));
-        postListForms.add(new PostListForm("author", "작성자"));
-
-        return postListForms;
     }
 }
