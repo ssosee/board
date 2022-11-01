@@ -89,18 +89,33 @@ public class PostController {
                                @ModelAttribute("searchPostForm") SearchPostForm searchPostForm,
                                Model model) {
 
-        Page<Post> posts = postService.findPosts(pageable, null);
+        //기본 조회
+        Page<Post> initPosts = postService.findInitPosts(pageable);
         Page<PostsDto> postsDtos =
-                posts.map(p -> new PostsDto(
-                        p.getId(), p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")), p.getTitle(), p.getMember().getUserId()
+                initPosts.map(p -> new PostsDto(
+                        p.getId(),
+                        p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
+                        p.getTitle(),
+                        p.getMember().getUserId()
                 ));
+
+        log.info("keyword={}", searchPostForm.getKeyword());
+        log.info("searchType={}", searchPostForm.getSearchType());
+
+        //검색 조회
+        if(searchPostForm.getSearchType() != null && searchPostForm.getKeyword() != null) {
+            Page<Post> searchPosts = postService.findSearchPosts(pageable, searchPostForm.getSearchType(), searchPostForm.getKeyword());
+            postsDtos = searchPosts.map(p -> new PostsDto(
+                    p.getId(),
+                    p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
+                    p.getTitle(),
+                    p.getMember().getUserId()
+            ));
+        }
 
         model.addAttribute("searchTypeForms", SearchTypeForm.createSearchTypeForm());
         model.addAttribute("postDtos", postsDtos);
         model.addAttribute("maxPage", 5);
-
-        log.info("keyword={}", searchPostForm.getKeyword());
-        log.info("searchType={}", searchPostForm.getSearchType());
 
         return "postList";
     }
@@ -109,13 +124,14 @@ public class PostController {
     public String readPostList(@PathVariable("postId") Long postId, Model model) {
 
         Optional<Post> post = postService.findPost(postId);
-        Optional<PostReadDto> postReadDto = post.map(p -> new PostReadDto(p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
-                p.getTitle(),
-                p.getContent(),
-                p.getMember().getUserId(),
-                p.getPhotos().stream()
-                        .map(ph -> ph.getStoreFileName())
-                        .collect(Collectors.toList())
+        Optional<PostReadDto> postReadDto =
+                post.map(p -> new PostReadDto(p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
+                    p.getTitle(),
+                    p.getContent(),
+                    p.getMember().getUserId(),
+                    p.getPhotos().stream()
+                            .map(ph -> ph.getStoreFileName())
+                            .collect(Collectors.toList())
                 ));
 
         model.addAttribute("postReadDto", postReadDto.get());

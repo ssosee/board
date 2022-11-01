@@ -21,8 +21,10 @@
                         </option>
                     </select>
                     <input type="text" th:field="*{keyword}" class="form-control" placeholder="글을 입력하세요.">
-                    <button type="button" class="btn btn-primary"
-                            th:onclick="|location.href='@{/member/postList (searchType=*{searchType}, keyword=*{keyword})}'|">검색</button>
+<!--                    <button type="button" class="btn btn-primary"-->
+<!--                            th:onclick="|location.href='@{/member/postList (searchType=*{searchType}, keyword=*{keyword})}'|">검색</button>-->
+                    <a type="button" class="btn btn-primary"
+                            th:href="@{/member/postList (searchType=*{searchType}, keyword=*{keyword})}">검색</a>
                 </div>
 
                 <table class="table table-striped">

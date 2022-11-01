@@ -6,6 +6,7 @@ import com.jang.board.domain.Post;
 import com.jang.board.repository.MemberRepository;
 import com.jang.board.repository.PhotoRepository;
 import com.jang.board.repository.PostRepository;
+import com.jang.board.web.controller.form.SearchType;
 import com.jang.board.web.file.FileStore;
 import com.jang.board.web.session.SessionConst;
 import lombok.RequiredArgsConstructor;
@@ -58,12 +59,21 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<Post> findPosts(Pageable pageable, String searchParam) {
-        //게시글 조회
+    public Page<Post> findInitPosts(Pageable pageable) {
+        //게시글 조회(기본값)
         Page<Post> findPosts = postRepository.findPostsBy(pageable);
-        //postRepository.findPostsByTitleOrContentOrAuthor(pageable, searchParam)
-
         return findPosts;
+    }
+
+    @Override
+    public Page<Post> findSearchPosts(Pageable pageable, String searchType, String keyword) {
+        //게시글 검색 조회
+        if(searchType.equals(SearchType.title.toString())) {
+            return postRepository.findPostsByTitleOrContentOrAuthor(pageable, keyword, null, null);
+        } else if (searchType.equals(SearchType.content.toString())) {
+            return postRepository.findPostsByTitleOrContentOrAuthor(pageable, null, keyword,null);
+        }
+        return postRepository.findPostsByTitleOrContentOrAuthor(pageable, null, null, keyword);
     }
 
     @Override
