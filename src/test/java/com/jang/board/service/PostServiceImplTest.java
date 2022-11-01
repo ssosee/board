@@ -39,7 +39,6 @@ class PostServiceImplTest {
     @Test
     @DisplayName("게시글 작성 테스트")
     void 게시글_작성_테스트() {
-
         List<String> fileNames = Arrays.asList("사진1","사진2","사진3");
         List<String> storeFileName = fileStore.createStoreFileName(fileNames.stream().collect(Collectors.toList()));
         Long memberId = loginService.singnup("dlwlrma", "dlwlrma!23", "dlwlrma@kakao.com", "010-1234-1234");

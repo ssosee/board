@@ -40,13 +40,11 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-
         Long total = queryFactory
                 .select(p.count())
                 .from(p)
                 .where(titleContains(title), contentContains(content), authorContains(author))
                 .fetchOne();
-
 
         return new PageImpl<>(result, pageable, total);
     }
