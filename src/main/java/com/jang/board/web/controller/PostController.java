@@ -89,6 +89,30 @@ public class PostController {
                                @ModelAttribute("searchPostForm") SearchPostForm searchPostForm,
                                Model model) {
 
+        Page<PostsDto> postsDtos = getPostsDtos(pageable, searchPostForm);
+        model.addAttribute("postDtos", postsDtos);
+        model.addAttribute("searchTypeForms", SearchTypeForm.createSearchTypeForm());
+        model.addAttribute("maxPage", 5);
+
+        return "postList";
+    }
+
+    /**
+     * 조회 분류 메소드
+     */
+    private Page<PostsDto> getPostsDtos(Pageable pageable, SearchPostForm searchPostForm) {
+        //검색 조회
+        if(searchPostForm.getSearchType() != null && searchPostForm.getKeyword() != null) {
+            Page<Post> searchPosts = postService.findSearchPosts(pageable, searchPostForm.getSearchType(), searchPostForm.getKeyword());
+            Page<PostsDto> postsDtos = searchPosts.map(p -> new PostsDto(
+                    p.getId(),
+                    p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
+                    p.getTitle(),
+                    p.getMember().getUserId()
+            ));
+
+            return postsDtos;
+        }
         //기본 조회
         Page<Post> initPosts = postService.findInitPosts(pageable);
         Page<PostsDto> postsDtos =
@@ -99,25 +123,7 @@ public class PostController {
                         p.getMember().getUserId()
                 ));
 
-        log.info("keyword={}", searchPostForm.getKeyword());
-        log.info("searchType={}", searchPostForm.getSearchType());
-
-        //검색 조회
-        if(searchPostForm.getSearchType() != null && searchPostForm.getKeyword() != null) {
-            Page<Post> searchPosts = postService.findSearchPosts(pageable, searchPostForm.getSearchType(), searchPostForm.getKeyword());
-            postsDtos = searchPosts.map(p -> new PostsDto(
-                    p.getId(),
-                    p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
-                    p.getTitle(),
-                    p.getMember().getUserId()
-            ));
-        }
-
-        model.addAttribute("searchTypeForms", SearchTypeForm.createSearchTypeForm());
-        model.addAttribute("postDtos", postsDtos);
-        model.addAttribute("maxPage", 5);
-
-        return "postList";
+        return postsDtos;
     }
 
     @GetMapping("/postRead/{postId}")

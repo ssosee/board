@@ -29,7 +29,7 @@ public class Init {
 
         List<String> fileNames = Arrays.asList("사진1","사진2","사진3");
         List<String> storeFileName = fileStore.createStoreFileName(fileNames.stream().collect(Collectors.toList()));
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < 52; i++) {
             Long postId = postService.addPost("안녕하세요"+i, "테스트입니다."+i, fileNames, storeFileName, memberId);
         }
     }

@@ -10,9 +10,9 @@
 <body>
     <main>
         <div class="container p-5">
-            <form>
+            <form th:object="${searchPostForm}" method="get" action="" th:action>
             <h2>📋 게시글 목록</h2><br>
-                <div class="input-group mb-4" th:object="${searchPostForm}">
+                <div class="input-group mb-4">
                     <span class="input-group-text" id="inputGroup-sizing-default">검색</span>
                     <select class="form-select" th:field="*{searchType}">
                         <option th:each="searchTypeForm : ${searchTypeForms}"
@@ -21,10 +21,9 @@
                         </option>
                     </select>
                     <input type="text" th:field="*{keyword}" class="form-control" placeholder="글을 입력하세요.">
-<!--                    <button type="button" class="btn btn-primary"-->
-<!--                            th:onclick="|location.href='@{/member/postList (searchType=*{searchType}, keyword=*{keyword})}'|">검색</button>-->
-                    <a type="button" class="btn btn-primary"
-                            th:href="@{/member/postList (searchType=*{searchType}, keyword=*{keyword})}">검색</a>
+                    <button type="submit" class="btn btn-primary"
+                            th:onclick="|location.href='@{/member/postList (searchType=*{searchType}, keyword=*{keyword})}'|">검색
+                    </button>
                 </div>
 
                 <table class="table table-striped">
@@ -38,7 +37,7 @@
                     </thead>
                     <tbody>
                     <tr style="text-align: center; cursor: pointer" th:each="value : ${postDtos}"
-                        th:onclick="|location.href='@{/member/postRead/{id} (id=*{value.id})}'|">
+                        th:onclick="|location.href='@{/member/postRead/{id} (id=${value.id})}'|">
                         <td th:text="${value.id}"></td>
                         <td th:text="${value.writeTime}"></td>
                         <td th:text="${value.title}"></td>
@@ -53,21 +52,22 @@
                             th:with="start=${T(java.lang.Math).floor(postDtos.number/maxPage)*maxPage + 1},
                             end=(${start + (maxPage - 1) < postDtos.totalPages ? start + (maxPage - 1) : postDtos.totalPages})">
                             <li th:class="${postDtos.first} ? 'page-item disabled' : 'page-item'">
-                                <a class="page-link" th:href="@{/member/postList(page=0)}">&lt;&lt;</a>
+                                <a class="page-link" th:href="@{/member/postList(searchType=*{searchType}, keyword=*{keyword}, page=0)}">&lt;&lt;</a>
                             </li>
                             <li th:class="${postDtos.first} ? 'page-item disabled' : 'page-item'">
-                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.number - 1})}">&lt;</a>
+                                <a class="page-link" th:href="@{/member/postList(searchType=*{searchType}, keyword=*{keyword}, page=${postDtos.number - 1})}">&lt;</a>
                             </li>
-                            <li th:each="page : ${#numbers.sequence(start, end)}"
+                            <li th:if="${end != 0}"
+                                th:each="page : ${#numbers.sequence(start, end)}"
                                 th:class="${page == postDtos.number + 1} ? 'page-item active' : 'page-item'">
                                 <a class="page-link"
-                                   th:text="${page}" th:href="@{/member/postList(page=${page - 1})}"></a>
+                                   th:text="${page}" th:href="@{/member/postList(searchType=*{searchType}, keyword=*{keyword}, page=${page - 1})}"></a>
                             </li>
                             <li th:class="${postDtos.last} ? 'page-item disabled' : 'page-item'">
-                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.number + 1})}">&gt;</a>
+                                <a class="page-link" th:href="@{/member/postList(searchType=*{searchType}, keyword=*{keyword}, page=${postDtos.number + 1})}">&gt;</a>
                             </li>
                             <li th:class="${postDtos.last} ? 'page-item disabled' : 'page-item'">
-                                <a class="page-link" th:href="@{/member/postList(page=${postDtos.totalPages - 1})}">&gt;&gt;</a>
+                                <a class="page-link" th:href="@{/member/postList(searchType=*{searchType}, keyword=*{keyword}, page=${postDtos.totalPages - 1})}">&gt;&gt;</a>
                             </li>
                         </ul>
                     </nav>

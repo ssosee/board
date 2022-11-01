@@ -50,7 +50,6 @@ public class PostRepositoryCustomImpl implements PostRepositoryCustom {
     }
 
     private BooleanExpression titleContains(String title) {
-
         return title != null ? p.title.contains(title) : null;
     }
 
