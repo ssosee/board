@@ -28,6 +28,11 @@ public class FileStore {
 
     //파일 저장
     public void saveFile(List<MultipartFile> file, List<String> storeFilenames) {
+
+        if(storeFilenames.get(0).equals("") && storeFilenames.size() == 1) {
+            return;
+        }
+
         StringBuffer storeFileName = new StringBuffer();
         for (int i = 0; i < storeFilenames.size(); i++) {
             storeFileName.append(storeFilenames.get(i));
@@ -43,6 +48,10 @@ public class FileStore {
 
     //서버에 저장하는 파일명 가공함수
     public List<String> createStoreFileName(List<String> originalFilenames) {
+
+        if(originalFilenames.size() == 1 && originalFilenames.get(0).equals("")) {
+            return originalFilenames;
+        }
 
         List<String> storeFilenames = new ArrayList<>();
         for (String originalFilename : originalFilenames) {

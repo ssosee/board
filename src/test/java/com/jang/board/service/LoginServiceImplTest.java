@@ -1,6 +1,7 @@
 package com.jang.board.service;
 
 import com.jang.board.domain.Member;
+import com.jang.board.exception.UserException;
 import com.jang.board.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -25,7 +26,7 @@ class LoginServiceImplTest {
     @Test
     @DisplayName("회원가입 테스트")
     public void 회원가입_테스트() {
-        Long id = loginService.singnup("dlwlrma", "dlwlrma!23", "dlwlrma@kakao.com", "010-1234-1234");
+        Long id = loginService.signup("dlwlrma", "dlwlrma!23", "dlwlrma@kakao.com", "010-1234-1234");
         Optional<Member> findMember = memberRepository.findMemberByUserId("dlwlrma");
 
         Assertions.assertThat(findMember.get().getId()).isEqualTo(id);
@@ -34,10 +35,10 @@ class LoginServiceImplTest {
     @Test
     @DisplayName("이미 존재하는 회원 테스트")
     public void 존재하는_회원_테스트() throws Exception {
-        loginService.singnup("dlwlrma", "dlwlrma!23", "dlwlrma@kakao.com", "010-1234-1234");
+        loginService.signup("dlwlrma", "dlwlrma!23", "dlwlrma@kakao.com", "010-1234-1234");
 
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            loginService.singnup("dlwlrma", "dlwlrma!23", "dlwlrma@kakao.com", "010-1234-1234");
+        UserException exception = assertThrows(UserException.class, () -> {
+            loginService.signup("dlwlrma", "dlwlrma", "dlwlrma@kakao.com", "010-1234-1234");
         });
         assertEquals("이미 존재하는 회원 입니다.", exception.getMessage());
     }
@@ -45,7 +46,7 @@ class LoginServiceImplTest {
     @Test
     @DisplayName("로그인 테스트")
     public void 로그인_테스트() {
-        Long id = loginService.singnup("dlwlrma", "dlwlrma!23", "dlwlrma@kakao.com", "010-1234-1234");
+        Long id = loginService.signup("dlwlrma", "dlwlrma!23", "dlwlrma@kakao.com", "010-1234-1234");
         Optional<Member> loginMember = loginService.login("dlwlrma", "dlwlrma!23");
 
         Assertions.assertThat(id).isEqualTo(loginMember.get().getId());

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,6 +7,8 @@
   <link th:href="@{/css/bootstrap.min.css}"
         href="../css/bootstrap.min.css" rel="stylesheet">
   <link th:href="@{/css/signup.css}" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <style>
     .container {
       max-width: 560px;
@@ -15,6 +17,7 @@
       color: #dc3545;
     }
   </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
 <body class="text-center">
   <main class="form-signup w-100 m-auto">
@@ -22,6 +25,7 @@
       <div th:if="${#fields.hasGlobalErrors()}">
         <p class="is-invalid" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
       </div>
+
         <span style="font-size:3em;">🚀 회원가입</span>
         <h1 class="h4 mb-3 fw-normal">아래 정보를 입력해주세요.</h1>
 
@@ -57,6 +61,54 @@
           <button class="w-100 btn btn-lg btn-primary" type="submit">가입완료</button>
           <input class="w-100 btn btn-lg btn-secondary" type="reset" value="초기화">
         </div>
+
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Launch demo modal
+      </button>
+
+      <th:block th:if="${signupError} != null" layout:fragment="script">
+        <script th:src="@{/scripts/common.js}"></script>
+        <script th:inline="javascript">
+          /* <![CDATA[ */
+
+          window.onload = () => {
+            const message = [[ ${signupError} ]];
+            if (message) {
+              alert(message);
+            }
+
+            const form = document.getElementById('signupError');
+            if (form) {
+              form.submit();
+              return false;
+            }
+
+            const redirectUri = [[ ${params.redirectUri} ]];
+            location.href = redirectUri;
+          }
+
+          /* ]]> */
+        </script>
+      </th:block>
+
+        <div th:if="${signupError} != null" class="modal" tabindex="-1">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>Modal body text goes here.</p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
     </form>
   </main>
 </body>

@@ -1,5 +1,6 @@
 package com.jang.board.web.controller;
 
+import com.jang.board.exception.UserException;
 import com.jang.board.web.controller.form.LoginForm;
 import com.jang.board.domain.Member;
 import com.jang.board.service.LoginService;
@@ -29,6 +30,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
+    @ExceptionHandler(UserException.class)
     public String login(@Valid @ModelAttribute LoginForm loginForm, BindingResult bindingResult,
                         @RequestParam(defaultValue = "/home") String redirectUrl,
                         HttpServletRequest request) {
@@ -50,5 +52,10 @@ public class LoginController {
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember.get());
 
         return "redirect:"+redirectUrl;
+    }
+
+    @ExceptionHandler(UserException.class)
+    public String loginExHandle(UserException e) {
+        return "loginForm";
     }
 }

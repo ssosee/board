@@ -22,7 +22,7 @@
       margin:0 auto;
     }
     .image-thumbnail {
-      aspect-ratio: auto z3/4;
+      aspect-ratio: 3/4;
       width:100%;
       height:100%;
       object-fit:cover;
@@ -39,9 +39,12 @@
           <div id="carouselImage" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner image-box">
               <div th:each="value, i : ${postReadDto.uploadFileName}"
-                   class="carousel-item image-thumbnail"
+                   class="carousel-item"
                    th:classappend="${i.index} < 1 ? 'active' : ''">
-                <img class="card-img-top" th:src="@{/member/images/{imageName}(imageName=*{value})}" alt="이미지가 없습니다." >
+                <img class="card-img-top image-thumbnail"
+                     th:src="*{value} == ''
+                     ? @{/member/images/{imageName}(imageName='rocket.jpg')}
+                     : @{/member/images/{imageName}(imageName=*{value})}" alt="이미지가 없습니다." >
               </div>
             </div>
 

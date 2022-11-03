@@ -41,7 +41,7 @@ class PostServiceImplTest {
     void 게시글_작성_테스트() {
         List<String> fileNames = Arrays.asList("사진1","사진2","사진3");
         List<String> storeFileName = fileStore.createStoreFileName(fileNames.stream().collect(Collectors.toList()));
-        Long memberId = loginService.singnup("dlwlrma", "dlwlrma!23", "dlwlrma@kakao.com", "010-1234-1234");
+        Long memberId = loginService.signup("dlwlrma", "dlwlrma!23", "dlwlrma@kakao.com", "010-1234-1234");
         Optional<Member> loginMember = loginService.login("dlwlrma", "dlwlrma!23");
 
         Long postId = postService.addPost("안녕하세요", "테스트입니다.", fileNames, storeFileName, memberId);

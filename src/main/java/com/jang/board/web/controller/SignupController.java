@@ -32,7 +32,8 @@ public class SignupController {
         }
 
         log.info(signupForm.toString());
-        loginService.singnup(signupForm.getUserId(), signupForm.getPassword(), signupForm.getEmail(), signupForm.getPhone());
+        loginService.signup(signupForm.getUserId(), signupForm.getPassword(), signupForm.getEmail(), signupForm.getPhone());
+
         return "redirect:/member/login";
     }
 }
