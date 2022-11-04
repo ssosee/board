@@ -1,7 +1,7 @@
 package com.jang.board.service;
 
 import com.jang.board.domain.Member;
-import com.jang.board.exception.UserException;
+import com.jang.board.exception.SignupException;
 import com.jang.board.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +37,7 @@ class LoginServiceImplTest {
     public void 존재하는_회원_테스트() throws Exception {
         loginService.signup("dlwlrma", "dlwlrma!23", "dlwlrma@kakao.com", "010-1234-1234");
 
-        UserException exception = assertThrows(UserException.class, () -> {
+        SignupException exception = assertThrows(SignupException.class, () -> {
             loginService.signup("dlwlrma", "dlwlrma", "dlwlrma@kakao.com", "010-1234-1234");
         });
         assertEquals("이미 존재하는 회원 입니다.", exception.getMessage());

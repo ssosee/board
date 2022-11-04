@@ -25,6 +25,7 @@
 
       <span style="font-size:5em;">🔐</span>
       <h1 class="h3 mb-3 fw-normal">아래 정보를 입력해주세요.</h1>
+      <h3 class="field-error" text="" th:text="${loginEx}"></h3>
 
       <div class="form-floating">
         <input type="text" class="form-control" id="floatingUserId" th:field="*{userId}"
