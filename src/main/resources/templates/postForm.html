@@ -37,7 +37,7 @@
         <div class="mb-3">
           <label for="imageFile" class="form-label">📷 사진첨부</label>
           <input type="file" class="form-control" name="imageFile" accept="image/*" id="imageFile"
-                 multiple="multiple" value="첨부파일" placeholder="첨부파일">
+                 multiple="multiple" value="첨부파일" placeholder="첨부파일" th:text="*{uploadFilename}">
         </div>
 
         <div class="d-grid gap-2 d-md-flex justify-content-md-end col-auto">

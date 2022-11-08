@@ -20,18 +20,18 @@ public class Post extends BaseTime {
     private String title;
     @Lob
     private String content;
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     private List<Photo> photos = new ArrayList<>();
 
     @Builder
     public static Post createPost(String title, String content, Member member, List<Photo> photos) {
         Post post = new Post();
-        post.changePost(title, content, member);
+        post.changeCreatePost(title, content, member);
         post.changePhoto(photos);
         return post;
     }
 
-    private void changePost(String title, String content, Member member) {
+    private void changeCreatePost(String title, String content, Member member) {
         this.title = title;
         this.content = content;
         this.member = member;
@@ -49,4 +49,9 @@ public class Post extends BaseTime {
         this.photos = photos;
     }
 
+    public void changePost(String title, String content, List<Photo> photos) {
+        this.title = title;
+        this.content = content;
+        //changePhoto(photos);
+    }
 }

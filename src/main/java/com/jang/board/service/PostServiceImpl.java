@@ -3,6 +3,8 @@ package com.jang.board.service;
 import com.jang.board.domain.Member;
 import com.jang.board.domain.Photo;
 import com.jang.board.domain.Post;
+import com.jang.board.exception.PhotoException;
+import com.jang.board.exception.PostException;
 import com.jang.board.repository.MemberRepository;
 import com.jang.board.repository.PhotoRepository;
 import com.jang.board.repository.PostRepository;
@@ -20,6 +22,8 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @Transactional(readOnly = true)
@@ -77,10 +81,40 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Optional<Post> findPost(Long id) {
+    public Post findPost(Long id) {
         //게시글 단건 조회
         Optional<Post> findPost = postRepository.findById(id);
+        Post post = findPost.orElseThrow(() -> new PostException("해당 게시글이 없습니다."));
 
-        return findPost;
+        return post;
+    }
+
+    @Override
+    @Transactional
+    public void updatePost(Long id, String title,
+                           String content,
+                           List<String> originalFilenames, List<String> storeFilenames) {
+
+        Post post = findPost(id);
+
+        List<Photo> photos = new ArrayList<>(post.getPhotos());
+        for(Photo photo : photos) {
+            photoRepository.delete(photo);
+        }
+
+        photos = new ArrayList<>();
+        for(int i = 0; i < originalFilenames.size(); i++) {
+            Photo photo = Photo.createPhoto(post.getMember(), originalFilenames.get(i), storeFilenames.get(i));
+            photos.add(photo);
+            photo.changePost(post);
+            photoRepository.save(photo);
+        }
+
+        post.changePost(title, content, photos);
+
+        fileStore.deleteFile(photos.stream()
+                .map(Photo::getStoreFileName)
+                .collect(Collectors.toList()));
+
     }
 }

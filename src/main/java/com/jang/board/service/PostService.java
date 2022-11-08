@@ -12,5 +12,7 @@ public interface PostService {
     Long addPost(String title, String content, List<String> uploadFileNames, List<String> storeFileNames, Long id);
     Page<Post> findInitPosts(Pageable pageable);
     Page<Post> findSearchPosts(Pageable pageable, String searchType, String keyword);
-    Optional<Post> findPost(Long id);
+    Post findPost(Long id);
+    void updatePost(Long id, String title, String Content,
+                    List<String> originalFilename, List<String> storeFilenames);
 }

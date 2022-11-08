@@ -46,6 +46,16 @@ public class FileStore {
         }
     }
 
+    //파일 삭제
+    public void deleteFile(List<String> uploadFilenames) {
+        for(String uploadFilename : uploadFilenames) {
+            File uploadFile = new File(getFullPath(uploadFilename));
+            if(uploadFile.exists() && uploadFile.isFile()) {
+                uploadFile.delete();
+            }
+        }
+    }
+
     //서버에 저장하는 파일명 가공함수
     public List<String> createStoreFileName(List<String> originalFilenames) {
 

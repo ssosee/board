@@ -27,11 +27,11 @@ public class Photo extends BaseTime {
     //생성 메서드
     public static Photo createPhoto(Member member, String uploadFileName, String storeFileName) {
         Photo photo = new Photo();
-        photo.changePhoto(member, uploadFileName, storeFileName);
+        photo.changeCreatePhoto(member, uploadFileName, storeFileName);
         return photo;
     }
 
-    public void changePhoto(Member member, String uploadFileName, String storeFileName) {
+    private void changeCreatePhoto(Member member, String uploadFileName, String storeFileName) {
         this.member = member;
         this.uploadFileName = uploadFileName;
         this.storeFileName = storeFileName;
@@ -40,5 +40,10 @@ public class Photo extends BaseTime {
     //연관관계 편의 메서드
     public void changePost(Post post) {
         this.post = post;
+    }
+
+    public void changePhoto(String uploadFileName, String storeFileName) {
+        this.uploadFileName = uploadFileName;
+        this.storeFileName = storeFileName;
     }
 }

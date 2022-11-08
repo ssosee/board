@@ -43,7 +43,7 @@
                    th:classappend="${i.index} < 1 ? 'active' : ''">
                 <img class="card-img-top image-thumbnail"
                      th:src="*{value} == ''
-                     ? @{/member/images/{imageName}(imageName='rocket.jpg')}
+                     ? @{/member/images/{imageName}(imageName='jangseaung-default-rocket-2897e5f5-db5e-4a5c-a002-b6801c1ae8f3.jpg')}
                      : @{/member/images/{imageName}(imageName=*{value})}" alt="이미지가 없습니다." >
               </div>
             </div>
@@ -64,6 +64,7 @@
             <p class="card-text" th:text="*{content}">
             </p>
             <p class="card-text" th:text="*{writeTime}"><small class="text-muted"></small></p>
+            <p class="card-text" th:text="*{author}"><small class="text-muted"></small></p>
           </div>
         </div>
 
@@ -75,6 +76,7 @@
       <button class="btn btn-lg btn-success mb-2 w-auto" th:onclick="|location.href='@{/member/login}'|" type="button">로그인</button>
       <button class="btn btn-lg btn-warning mb-2 w-auto" th:onclick="|location.href='@{/member/post}'|" type="button">게시글 작성</button>
       <button class="btn btn-lg btn-secondary mb-2 w-auto" th:onclick="|location.href='@{/member/postList}'|" type="button">게시글 조회</button>
+      <button class="btn btn-lg btn-light mb-2 w-auto" th:onclick="|location.href='@{/member/post/{postId}(postId=${postId})}'|" type="button">게시글 수정</button>
     </p>
   </main>
 </body>

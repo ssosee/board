@@ -55,7 +55,7 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public String post(@Valid @ModelAttribute PostForm postForm, BindingResult bindingResult, HttpServletRequest request) {
+    public String AddPost(@Valid @ModelAttribute PostForm postForm, BindingResult bindingResult, HttpServletRequest request) {
 
         if(bindingResult.hasErrors()) {
             return "postForm";
@@ -84,70 +84,52 @@ public class PostController {
         return "redirect:/member/postList";
     }
 
-    @GetMapping("/postList")
-    public String postListForm(@PageableDefault(size = 5, sort = "createdDate", direction = Sort.Direction.DESC) Pageable pageable,
-                               @ModelAttribute("searchPostForm") SearchPostForm searchPostForm,
-                               Model model) {
+    @GetMapping("/post/{postId}")
+    public String modifyPostForm(@PathVariable Long postId, Model model, HttpServletRequest request) {
 
-        Page<PostsDto> postsDtos = getPostsDtos(pageable, searchPostForm);
-        model.addAttribute("postDtos", postsDtos);
-        model.addAttribute("searchTypeForms", SearchTypeForm.createSearchTypeForm());
-        model.addAttribute("maxPage", 5);
+        Post findPost = postService.findPost(postId);
+        PostForm postForm = new PostForm(findPost.getTitle(),
+                findPost.getContent(),
+                findPost.getPhotos().stream()
+                        .map(ph -> ph.getUploadFileName())
+                        .collect(Collectors.toList()));
 
-        return "postList";
+        model.addAttribute("postForm", postForm);
+
+        return "postForm";
     }
 
-    /**
-     * 조회 분류 메소드
-     */
-    private Page<PostsDto> getPostsDtos(Pageable pageable, SearchPostForm searchPostForm) {
-        //검색 조회
-        if(searchPostForm.getSearchType() != null && searchPostForm.getKeyword() != null) {
-            Page<Post> searchPosts = postService.findSearchPosts(pageable, searchPostForm.getSearchType(), searchPostForm.getKeyword());
-            Page<PostsDto> postsDtos = searchPosts.map(p -> new PostsDto(
-                    p.getId(),
-                    p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
-                    p.getTitle(),
-                    p.getMember().getUserId()
-            ));
+    @PostMapping("/post/{postId}")
+    public String modifyPost(@Valid @ModelAttribute PostForm postForm,
+                             BindingResult bindingResult,
+                             @PathVariable Long postId,
+                             HttpServletRequest request) {
 
-            return postsDtos;
+        if(bindingResult.hasErrors()) {
+            return "postForm";
         }
-        //기본 조회
-        Page<Post> initPosts = postService.findInitPosts(pageable);
-        Page<PostsDto> postsDtos =
-                initPosts.map(p -> new PostsDto(
-                        p.getId(),
-                        p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
-                        p.getTitle(),
-                        p.getMember().getUserId()
-                ));
 
-        return postsDtos;
-    }
+        //로그인한 회원만 작성 가능
+        HttpSession session = request.getSession(false);
+        Member sessionMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (sessionMember == null) {
+            return "redirect:/member/login";
+        }
 
-    @GetMapping("/postRead/{postId}")
-    public String readPostList(@PathVariable("postId") Long postId, Model model) {
+        //파일 원본 이름
+        List<String> originalFilenames = postForm.getImageFile().stream()
+                .map(f -> f.getOriginalFilename())
+                .collect(Collectors.toList());
 
-        Optional<Post> post = postService.findPost(postId);
-        Optional<PostReadDto> postReadDto =
-                post.map(p -> new PostReadDto(p.getCreatedDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss")),
-                    p.getTitle(),
-                    p.getContent(),
-                    p.getMember().getUserId(),
-                    p.getPhotos().stream()
-                            .map(ph -> ph.getStoreFileName())
-                            .collect(Collectors.toList())
-                ));
+        //저장 파일 이름
+        List<String> storeFilenames = fileStore.createStoreFileName(postForm.getImageFile().stream()
+                .map(f -> f.getOriginalFilename())
+                .collect(Collectors.toList()));
 
-        model.addAttribute("postReadDto", postReadDto.get());
+        postService.updatePost(postId, postForm.getTitle(), postForm.getContent(), originalFilenames, storeFilenames);
+        fileStore.saveFile(postForm.getImageFile(), storeFilenames); //파일 저장
 
-        return "postRead";
-    }
+        return "redirect:/member/postRead/{postId}";
 
-    @ResponseBody
-    @GetMapping("/images/{filename}")
-    public Resource showImage(@PathVariable String filename) throws MalformedURLException {
-        return new UrlResource("file:"+fileStore.getFullPath(filename));
     }
 }

@@ -1,8 +1,10 @@
 package com.jang.board.web.controller.error;
 
 import com.jang.board.exception.LoginException;
+import com.jang.board.exception.PostException;
 import com.jang.board.exception.SignupException;
 import com.jang.board.web.controller.form.LoginForm;
+import com.jang.board.web.controller.form.PostForm;
 import com.jang.board.web.controller.form.SignupForm;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -34,7 +36,20 @@ public class ExceptionController {
 
         modelAndView.addObject("loginEx", e.getMessage());
         modelAndView.addObject("loginForm", new LoginForm()); //뷰에 더미 데이터 매칭
+
         modelAndView.setViewName("loginForm");
+
+        return modelAndView;
+    }
+
+    @ExceptionHandler(PostException.class)
+    public ModelAndView postExHandler(PostException e) {
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.addObject("postEx", e.getMessage());
+        modelAndView.addObject("postForm", new PostForm());
+
+        modelAndView.setViewName("postForm");
 
         return modelAndView;
     }
