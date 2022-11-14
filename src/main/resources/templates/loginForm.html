@@ -6,7 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>장세웅의 게시판</title>
   <link th:href="@{/css/bootstrap.min.css}"
-        href="../css/bootstrap.min.css" rel="stylesheet">
+        href="https://getbootstrap.kr/docs/5.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
   <!-- Custom styles for this template -->
   <link th:href="@{/css/login.css}" rel="stylesheet">
 
@@ -16,8 +17,9 @@
     }
   </style>
 </head>
-<body class="text-center">
-  <main class="form-login w-100 m-auto">
+<body class="d-flex text-center w-100">
+<div th:replace="fragment/header" :: header></div>
+  <div class="form-login w-100 m-auto">
     <form action="" th:action th:object="${loginForm}" method="post">
       <div th:if="${#fields.hasGlobalErrors()}">
         <p class="is-invalid" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
@@ -55,6 +57,7 @@
       <p class="mt-5 mb-3 text-muted">© 2022</p>
 
     </form>
-  </main>
+  </div>
+<div th:replace="fragment/footer" :: footer></div>
 </body>
 </html>

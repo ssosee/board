@@ -10,6 +10,7 @@
 <body>
     <main>
         <div class="container p-5">
+            <div th:replace="fragment/header" :: header></div>
             <form th:object="${searchPostForm}" method="get" action="" th:action>
             <h2>📋 게시글 목록</h2><br>
                 <div class="input-group mb-4">
@@ -72,15 +73,8 @@
                         </ul>
                     </nav>
                 </div>
-
-                <p class="d-grid gap-2 d-md-flex justify-content-lg-around col-auto">
-                    <button class="btn btn-lg btn-primary mb-2 w-auto" th:onclick="|location.href='@{/member/signup}'|" type="button">회원가입</button>
-                    <button class="btn btn-lg btn-success mb-2 w-auto" th:onclick="|location.href='@{/member/login}'|" type="button">로그인</button>
-                    <button class="btn btn-lg btn-warning mb-2 w-auto" th:onclick="|location.href='@{/member/post}'|" type="button">게시글 작성</button>
-                    <button class="btn btn-lg btn-secondary mb-2 w-auto" th:onclick="|location.href='@{/member/postList}'|" type="button">게시글 조회</button>
-                </p>
-
             </form>
+            <div th:replace="fragment/footer" :: footer></div>
         </div>
     </main>
 </body>

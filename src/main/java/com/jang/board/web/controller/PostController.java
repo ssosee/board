@@ -21,10 +21,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -118,16 +122,17 @@ public class PostController {
 
         //파일 원본 이름
         List<String> originalFilenames = postForm.getImageFile().stream()
-                .map(f -> f.getOriginalFilename())
+                .map(MultipartFile::getOriginalFilename)
                 .collect(Collectors.toList());
 
         //저장 파일 이름
         List<String> storeFilenames = fileStore.createStoreFileName(postForm.getImageFile().stream()
-                .map(f -> f.getOriginalFilename())
+                .map(MultipartFile::getOriginalFilename)
                 .collect(Collectors.toList()));
 
         postService.updatePost(postId, postForm.getTitle(), postForm.getContent(), originalFilenames, storeFilenames);
         fileStore.saveFile(postForm.getImageFile(), storeFilenames); //파일 저장
+
 
         return "redirect:/member/postRead/{postId}";
 

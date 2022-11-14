@@ -8,35 +8,17 @@
           href="../css/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{/css/signup.css}" rel="stylesheet">
 </head>
-<body class="d-flex h-100 text-center">
+<body class="d-flex text-center">
     <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-        <header class="mb-auto">
-            <div>
-                <h3 class="float-md-start mb-0">장세웅의 게시판</h3>
-                <nav class="nav nav-masthead justify-content-center float-md-end">
-                    <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">Home</a>
-                    <a class="nav-link fw-bold py-1 px-0" href="#">Features</a>
-                    <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
-                </nav>
-            </div>
-        </header>
-
+        <div th:replace="fragment/header" :: header></div>
         <main class="m-auto" style="align-items: center; padding: 15px;" >
             <span style="font-size: 5em;">📋</span>
             <h1>장세웅의 게시판</h1>
             <p class="lead">장세웅의 게시판에 오신것을 환영합니다. 🤗</p>
-            <p class="d-grid gap-2 d-md-flex justify-content-lg-around col-auto">
-                <button class="btn btn-lg btn-primary mb-2 w-auto" th:onclick="|location.href='@{/member/signup}'|" type="button">회원가입</button>
-                <button class="btn btn-lg btn-success mb-2 w-auto" th:onclick="|location.href='@{/member/login}'|" type="button">로그인</button>
-                <button class="btn btn-lg btn-danger mb-2 w-auto" th:onclick="|location.href='@{/member/logout}'|" type="button">로그아웃</button>
-                <button class="btn btn-lg btn-warning mb-2 w-auto" th:onclick="|location.href='@{/member/post}'|" type="button">게시글 작성</button>
-                <button class="btn btn-lg btn-secondary mb-2 w-auto" th:onclick="|location.href='@{/member/postList}'|" type="button">게시글 조회</button>
-            </p>
+            <img style="width: 80%; border-radius: 3rem"
+                 th:src=@{/member/images/{imageName}(imageName='jangseaung-default-picture-2897e5f5-db5e-4a5c-a002-b6801c1ae8f3.png')}>
         </main>
-
-        <footer class="mt-auto">
-            <p><a href="https://github.com/ssosee/board" target="_blank">Github</a>, Email: howisitgoing@kakao.com</p>
-        </footer>
+        <div th:replace="fragment/footer" :: footer></div>
     </div>
 </body>
 </html>

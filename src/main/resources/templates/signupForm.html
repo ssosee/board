@@ -19,7 +19,8 @@
   </style>
   <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 </head>
-<body class="text-center">
+<body class="d-flex text-center">
+<div th:replace="fragment/header" :: header></div>
   <main class="form-signup w-100 m-auto">
     <form action="" th:action th:object="${signupForm}" method="post">
       <div th:if="${#fields.hasGlobalErrors()}">
@@ -66,5 +67,6 @@
 
     </form>
   </main>
+  <div th:replace="fragment/footer" :: footer></div>
 </body>
 </html>

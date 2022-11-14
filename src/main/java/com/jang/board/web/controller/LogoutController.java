@@ -17,9 +17,14 @@ public class LogoutController {
 
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
+
         HttpSession session = request.getSession(false);
+        String requestURI = request.getRequestURI();
+        if(session == null) {
+            return "redirect:/home?redirectURL="+requestURI;
+        }
+
         session.removeAttribute(SessionConst.LOGIN_MEMBER);
-        //session.invalidate();
 
         return "redirect:/home";
     }

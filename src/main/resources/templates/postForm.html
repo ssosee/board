@@ -16,6 +16,7 @@
 <body>
   <main>
     <div class="container p-5">
+      <div th:replace="fragment/header" :: header></div>
       <form action="" th:action th:object="${postForm}" method="post" enctype="multipart/form-data">
         <div th:if="${#fields.hasGlobalErrors()}">
           <p class="is-invalid" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
@@ -47,6 +48,7 @@
         </div>
 
       </form>
+      <div th:replace="fragment/footer" :: footer></div>
     </div>
   </main>
 </body>
