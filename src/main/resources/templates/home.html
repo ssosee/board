@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>장세웅의 게시판</title>
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/signup.css}" rel="stylesheet">
+</head>
+<body class="d-flex text-center">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+        <div th:replace="fragment/header" :: header></div>
+        <main class="m-auto" style="align-items: center; padding: 15px;" >
+            <span style="font-size: 5em;">📋</span>
+            <h1>장세웅의 게시판</h1>
+            <p class="lead">장세웅의 게시판에 오신것을 환영합니다. 🤗</p>
+            <img style="width: 80%; border-radius: 3rem"
+                 th:src=@{/member/images/{imageName}(imageName='jangseaung-default-picture-2897e5f5-db5e-4a5c-a002-b6801c1ae8f3.png')}>
+        </main>
+        <div th:replace="fragment/footer" :: footer></div>
+    </div>
+</body>
+</html>

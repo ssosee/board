@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <!-- 모바일에서의 적절한 반응형 동작을 위해 <meta name="viewport">를 넣어주세요.-->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>장세웅의 게시판</title>
+  <link th:href="@{/css/bootstrap.min.css}"
+        href="https://getbootstrap.kr/docs/5.2/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link th:href="@{/css/login.css}" rel="stylesheet">
+
+  <style>
+    .field-error {
+      color: #dc3545;
+    }
+  </style>
+</head>
+<body class="d-flex text-center">
+<div th:replace="fragment/header" :: header></div>
+  <div class="form-login w-100 m-auto">
+    <form action="" th:action th:object="${loginForm}" method="post">
+      <div th:if="${#fields.hasGlobalErrors()}">
+        <p class="is-invalid" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+      </div>
+
+      <span style="font-size:5em;">🔐</span>
+      <h1 class="h3 mb-3 fw-normal">아래 정보를 입력해주세요.</h1>
+      <h3 class="field-error" text="" th:text="${loginEx}"></h3>
+
+      <div class="form-floating">
+        <input type="text" class="form-control" id="floatingUserId" th:field="*{userId}"
+               th:errorclass="is-invalid" placeholder="user id">
+        <label for="floatingUserId">ID</label>
+        <div class="field-error" th:errors="*{userId}"></div>
+      </div>
+
+      <div class="form-floating">
+        <input type="password" class="form-control" id="floatingPassword" th:field="*{password}"
+               th:errorclass="is-invalid" placeholder="Password">
+        <label for="floatingPassword">Password</label>
+        <div class="field-error" th:errors="*{password}"></div>
+      </div>
+
+      <div class="checkbox mb-3">
+        <label>
+          <input type="checkbox" value="remember-me"> Remember me
+        </label>
+      </div>
+
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end col-auto">
+        <input class="w-100 btn btn-lg btn-primary" type="submit" value="로그인" />
+        <button class="w-100 btn btn-lg btn-success" th:onclick="|location.href='@{/member/signup}'|" type="button">회원가입</button>
+      </div>
+
+      <p class="mt-5 mb-3 text-muted">© 2022</p>
+
+    </form>
+  </div>
+<div th:replace="fragment/footer" :: footer></div>
+</body>
+</html>

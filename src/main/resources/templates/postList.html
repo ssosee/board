@@ -2,64 +2,80 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>장세웅의 게시판</title>
-    <link href="../static/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-          crossorigin="anonymous">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<main>
-    <div class="container p-5">
-        <form>
-        <h2>📋 게시글 목록</h2><br>
-            <div class="input-group mb-4">
-                <span class="input-group-text" id="inputGroup-sizing-default">검색</span>
-                <select class="form-select">
-                    <option selected>제목</option>
-                    <option value="1">내용</option>
-                    <option value="2">작성자</option>
-                    <option value="3">일시</option>
-                </select>
-                <input type="text" class="form-control" placeholder="글을 입력하세요.">
-                <input type="submit" class="btn btn-primary" value="검색">
-            </div>
-            <table class="table table-striped">
-                <thead>
-                <tr style="text-align: center">
-                    <th>번호</th>
-                    <th>일시</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr style="text-align: center">
-                    <td>1</td>
-                    <td>2022-10-02</td>
-                    <td>테스트</td>
-                    <td>장세웅</td>
-                </tr>
-                </tbody>
-            </table>
+    <main>
+        <div class="container p-5">
+            <div th:replace="fragment/header" :: header></div>
+            <form th:object="${searchPostForm}" method="get" action="" th:action>
+            <h2>📋 게시글 목록</h2><br>
+                <div class="input-group mb-4">
+                    <span class="input-group-text" id="inputGroup-sizing-default">검색</span>
+                    <select class="form-select" th:field="*{searchType}">
+                        <option th:each="searchTypeForm : ${searchTypeForms}"
+                                th:value="${searchTypeForm.searchType}"
+                                th:text="${searchTypeForm.displayName}">
+                        </option>
+                    </select>
+                    <input type="text" th:field="*{keyword}" class="form-control" placeholder="글을 입력하세요.">
+                    <button type="submit" class="btn btn-primary"
+                            th:onclick="|location.href='@{/member/postList (searchType=*{searchType}, keyword=*{keyword})}'|">검색
+                    </button>
+                </div>
 
-            <div class="pt-5">
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link">이전</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">다음</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </form>
-    </div>
-</main>
+                <table class="table table-striped">
+                    <thead>
+                    <tr style="text-align: center">
+                        <th>번호</th>
+                        <th>일시</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr style="text-align: center; cursor: pointer" th:each="value : ${postDtos}"
+                        th:onclick="|location.href='@{/member/postRead/{id} (id=${value.id})}'|">
+                        <td th:text="${value.id}"></td>
+                        <td th:text="${value.writeTime}"></td>
+                        <td th:text="${value.title}"></td>
+                        <td th:text="${value.author}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="pt-5">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center"
+                            th:with="start=${T(java.lang.Math).floor(postDtos.number/maxPage)*maxPage + 1},
+                            end=(${start + (maxPage - 1) < postDtos.totalPages ? start + (maxPage - 1) : postDtos.totalPages})">
+                            <li th:class="${postDtos.first} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/member/postList(searchType=*{searchType}, keyword=*{keyword}, page=0)}">&lt;&lt;</a>
+                            </li>
+                            <li th:class="${postDtos.first} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/member/postList(searchType=*{searchType}, keyword=*{keyword}, page=${postDtos.number - 1})}">&lt;</a>
+                            </li>
+                            <li th:if="${end != 0}"
+                                th:each="page : ${#numbers.sequence(start, end)}"
+                                th:class="${page == postDtos.number + 1} ? 'page-item active' : 'page-item'">
+                                <a class="page-link"
+                                   th:text="${page}" th:href="@{/member/postList(searchType=*{searchType}, keyword=*{keyword}, page=${page - 1})}"></a>
+                            </li>
+                            <li th:class="${postDtos.last} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/member/postList(searchType=*{searchType}, keyword=*{keyword}, page=${postDtos.number + 1})}">&gt;</a>
+                            </li>
+                            <li th:class="${postDtos.last} ? 'page-item disabled' : 'page-item'">
+                                <a class="page-link" th:href="@{/member/postList(searchType=*{searchType}, keyword=*{keyword}, page=${postDtos.totalPages - 1})}">&gt;&gt;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </form>
+            <div th:replace="fragment/footer" :: footer></div>
+        </div>
+    </main>
 </body>
 </html>
